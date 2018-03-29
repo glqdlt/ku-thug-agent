@@ -3,6 +3,9 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
+# 참고 레퍼런스
+# http://containertutorials.com/docker-compose/flask-simple-app.html
 # todo  thug에서 수행 할 url 을 request param으로 받아서 실행하는 것 추가 필요 
 @app.route('/')
 def hello_world():
