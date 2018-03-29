@@ -1,17 +1,20 @@
 from thug.ThugAPI import ThugAPI
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
 
-# 참고 레퍼런스
-# http://containertutorials.com/docker-compose/flask-simple-app.html
-# todo  thug에서 수행 할 url 을 request param으로 받아서 실행하는 것 추가 필요 
 @app.route('/')
 def hello_world():
-    t = TestAPI()
-    t.analyze("http://www.google.com")
     return 'Hello World!'
+
+
+@app.route('/thug/remote/', methods=['POST'])
+def start_on_thug_by_url():
+    url = request.form['url']
+    t = TestAPI()
+    t.analyze(url)
+    return '{"status" : "done", "url":"' + url + '"}'
 
 
 class TestAPI(ThugAPI):
@@ -22,8 +25,8 @@ class TestAPI(ThugAPI):
         # Set useragent to Internet Explorer 9.0 (Windows 7)
         self.set_useragent('win7ie90')
 
-        # Set referer to http://www.honeynet.org
-        self.set_referer('http://www.honeynet.org')
+        # # Set referer to http://www.honeynet.org
+        # self.set_referer('http://www.honeynet.org')
 
         # Enable file logging mode
         self.set_file_logging()
@@ -47,7 +50,7 @@ class TestAPI(ThugAPI):
         # Log analysis results
         self.log_event()
 
-if __name__ == "__main__":
-    print('start');
-    app.run(host='0.0.0.0')
 
+if __name__ == "__main__":
+    print('Start On Server..');
+    app.run(host='0.0.0.0')
