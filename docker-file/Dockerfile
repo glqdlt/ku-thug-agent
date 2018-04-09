@@ -1,6 +1,8 @@
 # Pull base image.
 FROM remnux/thug
 
+USER root
+
 RUN apt-get update
 RUN apt-get install -y net-tools vim iputils-ping
 RUN pip install flask
