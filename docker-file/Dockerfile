@@ -1,7 +1,10 @@
 # Pull base image.
 FROM remnux/thug
 
+RUN apt-get update
+RUN apt-get install -y net-tools vim iputils-ping
 RUN pip install flask
+RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 WORKDIR /
 ADD thug-agent.py thug-agent.py
